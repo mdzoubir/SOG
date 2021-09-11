@@ -5,6 +5,7 @@ import com.example.sogbackend.model.ConfirmationToken;
 import com.example.sogbackend.model.Visitor;
 import com.example.sogbackend.repository.ConfirmationTokenRepository;
 import com.example.sogbackend.repository.UserRepository;
+import com.example.sogbackend.responce.VisitorResponse;
 import com.example.sogbackend.services.visitorService.IVisitorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +47,7 @@ public class VisitorController {
 
 
     @GetMapping(path = "/{visitorId}")
-    public Visitor getVisitor(@PathVariable String visitorId){
+    public VisitorResponse getVisitor(@PathVariable String visitorId){
         return visitorService.getVisitor(visitorId);
     }
 

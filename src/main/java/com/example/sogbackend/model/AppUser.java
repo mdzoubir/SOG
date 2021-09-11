@@ -7,9 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity
@@ -36,12 +34,11 @@ public class AppUser implements Serializable {
     private String lastName;
 
     @Column(nullable = false, unique = true)
-    @Size(max = 50)
     @Email
     private String email;
 
     @Column(nullable = false)
-    @Size(max = 120)
+    @Size(max = 120, min = 8)
     private String password;
 
     @Column(nullable = false)
@@ -51,12 +48,18 @@ public class AppUser implements Serializable {
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles= new HashSet<>();
+    private List<Role> roles= new ArrayList<>();
 
     @Column(nullable = false)
     private String userPhone;
 
     @Column(nullable = false)
     private String photo;
+
+    @Column(nullable = true)
+    private String address;
+
+    @Column(nullable = false)
+    private Date createdAtt = new Date();
 
 }

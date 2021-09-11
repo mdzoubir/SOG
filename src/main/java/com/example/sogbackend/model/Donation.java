@@ -1,5 +1,6 @@
 package com.example.sogbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,9 +27,13 @@ public class Donation {
     @Column(nullable = false)
     private Date createDate = new Date();
 
+
+    @JsonIgnore
     @ManyToOne
     private Girl girl;
 
+
+    @JsonIgnore
     @ManyToOne
     private Visitor visitor;
 }

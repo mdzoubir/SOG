@@ -5,8 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -14,6 +15,6 @@ public class UserResponse implements Serializable {
     private String userId;
     private String userName;
     private Boolean emailVerificationStatus;
-    private Set<Role> roles = new HashSet<>();
+    private List<Role> roles = new ArrayList<>();
 }
 

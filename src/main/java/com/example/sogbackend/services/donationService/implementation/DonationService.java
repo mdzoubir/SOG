@@ -7,12 +7,15 @@ import com.example.sogbackend.model.Visitor;
 import com.example.sogbackend.repository.DonationRepository;
 import com.example.sogbackend.repository.GirlRepository;
 import com.example.sogbackend.repository.VisitorRepository;
+import com.example.sogbackend.responce.DonationResponse;
 import com.example.sogbackend.services.donationService.IDonationService;
 import com.example.sogbackend.shared.Utils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,5 +59,20 @@ public class DonationService implements IDonationService {
     @Override
     public List<Donation> getAllDonation() {
         return donationRepository.findAll();
+    }
+
+    @Override
+    public List<DonationResponse> getAllDonationByVisior(String userId) {
+        List<Donation> getAll = donationRepository.findAllByVisitorUserId(userId);
+        List<DonationResponse> responses = new ArrayList<>();
+        for (Donation donation : getAll){
+            DonationResponse response = new DonationResponse();
+            BeanUtils.copyProperties(donation, response);
+            response.setGirlName(donation.getGirl().getFirstName()+ " " + donation.getGirl().getLastName());
+            response.setTarget(donation.getGirl().getTarget());
+            response.setAmbassadorEmail(donation.getGirl().getAmbassador().getEmail());
+            responses.add(response);
+        }
+        return responses;
     }
 }

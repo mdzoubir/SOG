@@ -10,6 +10,9 @@ import com.example.sogbackend.responce.UserResponse;
 import com.example.sogbackend.services.accountService.IAccountService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +25,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin("*")
 public class AccountController {
 
     @Autowired
@@ -58,7 +62,7 @@ public class AccountController {
     }
 
     @GetMapping(path = "/profile")
-    public UserResponse profile(Principal principal) {
+    public ResponseEntity<UserResponse> profile(Principal principal) {
       AppUser appUser = accountService.loadUserByUsername(principal.getName());
 
         UserResponse userResponse = new UserResponse();
@@ -68,7 +72,7 @@ public class AccountController {
         userResponse.setUserName(appUser.getFirstName() + " " + appUser.getLastName());
         userResponse.setEmailVerificationStatus(appUser.getEmailVerificationStatus());
 
-      return userResponse;
+        return new ResponseEntity<>(userResponse, HttpStatus.ACCEPTED);
     }
 
 }

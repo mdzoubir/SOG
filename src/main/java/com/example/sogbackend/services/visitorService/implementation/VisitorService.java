@@ -3,12 +3,16 @@ package com.example.sogbackend.services.visitorService.implementation;
 import com.example.sogbackend.config.email.EmailService;
 import com.example.sogbackend.config.exception.SogException;
 import com.example.sogbackend.model.ConfirmationToken;
+import com.example.sogbackend.model.Girl;
+import com.example.sogbackend.model.Role;
 import com.example.sogbackend.model.Visitor;
 import com.example.sogbackend.repository.ConfirmationTokenRepository;
 import com.example.sogbackend.repository.VisitorRepository;
+import com.example.sogbackend.responce.VisitorResponse;
 import com.example.sogbackend.services.accountService.IAccountService;
 import com.example.sogbackend.services.visitorService.IVisitorService;
 import com.example.sogbackend.shared.Utils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -16,8 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -67,10 +70,15 @@ public class VisitorService implements IVisitorService {
     }
 
     @Override
-    public Visitor getVisitor(String visitorId) {
+    public VisitorResponse getVisitor(String visitorId) {
         Optional<Visitor> visitor = visitorRepository.findByUserId(visitorId);
         if (visitor.isEmpty()) throw new SogException("visitor not exist");
-        return  visitor.get();
+
+        VisitorResponse response = new VisitorResponse();
+        BeanUtils.copyProperties(visitor.get(), response);
+        List<Role> roles = visitor.get().getRoles();
+        response.setRole(roles.get(0).getRoleName());
+        return  response;
     }
 
     @Override
