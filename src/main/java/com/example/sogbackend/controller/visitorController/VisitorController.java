@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping(path = "api/v1/visitor")
 public class VisitorController {
 
@@ -62,8 +63,8 @@ public class VisitorController {
         visitorService.deleteVisitor(visitorId);
     }
 
-    @PutMapping(path = "/{visitorId}")
-    public Visitor updateVisitor(@PathVariable String visitorId, @RequestBody Visitor visitor){
+    @PostMapping(path = "/{visitorId}")
+    public VisitorResponse updateVisitor(@PathVariable String visitorId, @RequestBody Visitor visitor){
         return visitorService.updateVisitor(visitorId, visitor);
     }
 }

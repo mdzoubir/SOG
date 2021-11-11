@@ -11,6 +11,6 @@ public interface IVisitorService {
     Visitor addNewVisitor(Visitor visitor);
     VisitorResponse getVisitor(String visitorId);
     List<Visitor> getAllvisitors();
-    Visitor updateVisitor(String visitorId, Visitor visitor);
+    VisitorResponse updateVisitor(String visitorId, Visitor visitor);
     void deleteVisitor(String visitorId);
 }

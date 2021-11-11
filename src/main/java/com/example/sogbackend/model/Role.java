@@ -1,15 +1,14 @@
 package com.example.sogbackend.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Getter
-@Setter
+@Data
+@ToString
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "roles")
 public class Role implements Serializable {

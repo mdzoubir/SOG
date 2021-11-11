@@ -40,13 +40,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.headers().frameOptions().disable();
-        http.authorizeRequests().antMatchers("/login/**", "/refreshToken/**", "/azure/**", "/api/v1/visitor").permitAll();
+        http.authorizeRequests().antMatchers("/login/**", "/refreshToken/**", "/azure/**", "/api/v1/girl/all").permitAll();
         //http.formLogin();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(new JwtAuthenticationFilter(authenticationManagerBean()));
         http.addFilterBefore(new JwtAutorizationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
-
     }
     
 

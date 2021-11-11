@@ -29,7 +29,6 @@ public class VisitorService implements IVisitorService {
     @Autowired
     private Utils utils;
 
-
     @Autowired
     private VisitorRepository visitorRepository;
 
@@ -54,17 +53,17 @@ public class VisitorService implements IVisitorService {
 
         accountService.addRoleToUser(visitor.getEmail(), "visitor");
 
-        ConfirmationToken confirmationToken = new ConfirmationToken(visitor);
+//        ConfirmationToken confirmationToken = new ConfirmationToken(visitor);
 
-        confirmationTokenRepository.save(confirmationToken);
+//        confirmationTokenRepository.save(confirmationToken);
 
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(visitor.getEmail());
-        mailMessage.setSubject("Complete Registration!");
-        mailMessage.setFrom("zoubirtest12@gmail.com");
-        mailMessage.setText("To confirm your account, please click here : "
-                +"http://localhost:8080/api/v1/visitor/confirm-account?token="+confirmationToken.getConfirmationToken());
-        emailService.sendEmail(mailMessage);
+//        SimpleMailMessage mailMessage = new SimpleMailMessage();
+//        mailMessage.setTo(visitor.getEmail());
+//        mailMessage.setSubject("Complete Registration!");
+//        mailMessage.setFrom("zoubirtest12@gmail.com");
+//        mailMessage.setText("To confirm your account, please click here : "
+//                +"http://localhost:8080/api/v1/visitor/confirm-account?token="+confirmationToken.getConfirmationToken());
+//        emailService.sendEmail(mailMessage);
 
         return responce;
     }
@@ -86,15 +85,22 @@ public class VisitorService implements IVisitorService {
         return visitorRepository.findAll();
     }
 
+
+    //bug
     @Override
-    public Visitor updateVisitor(String visitorId, Visitor visitor) {
+    public VisitorResponse updateVisitor(String visitorId, Visitor visitor) {
         Optional<Visitor> resp = visitorRepository.findByUserId(visitorId);
         if (resp.isEmpty()) throw new SogException("visitor not exist");
         resp.get().setFirstName(visitor.getFirstName());
         resp.get().setLastName(visitor.getLastName());
-        resp.get().setPhoto(visitor.getPhoto());
+        resp.get().setAddress(visitor.getAddress());
+//        resp.get().setPhoto(visitor.getPhoto());
         resp.get().setUserPhone(visitor.getUserPhone());
-        return visitorRepository.save(resp.get());
+        Visitor visitor1 = visitorRepository.save(resp.get());
+        System.out.println(visitor1.getFirstName());
+        VisitorResponse visitorResponse = new VisitorResponse();
+        BeanUtils.copyProperties(resp.get(), visitorResponse);
+        return visitorResponse;
     }
 
     @Override
